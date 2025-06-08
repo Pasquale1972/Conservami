@@ -25,11 +25,15 @@ class _HomePageState extends State<HomePage> {
           if (prodotti.isEmpty) {
             return Center(child: Text('Nessun prodotto'));
           }
+
+          final prodottiList = prodotti.values.toList()
+            ..sort((a, b) => a.dataScadenza.compareTo(b.dataScadenza));
+
           return LayoutBuilder(
             builder: (context, constraints) {
               final isWide = constraints.maxWidth > 600;
               final itemBuilder = (BuildContext context, int index) {
-                final prodotto = prodotti.getAt(index)!;
+                final prodotto = prodottiList[index];
                 return Card(
                   margin: const EdgeInsets.all(8),
                   child: ListTile(
@@ -44,12 +48,19 @@ class _HomePageState extends State<HomePage> {
                           )
                         : const Icon(Icons.fastfood),
                     title: Text(prodotto.nome),
-                    subtitle: Text(
-                      'Scadenza: ${DateFormat('dd/MM/yyyy').format(prodotto.dataScadenza)}',
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Scadenza: ${DateFormat('dd/MM/yyyy').format(prodotto.dataScadenza)}',
+                        ),
+                        if (prodotto.nutriScore.isNotEmpty)
+                          Text('Nutri-Score: ${prodotto.nutriScore.toUpperCase()}'),
+                      ],
                     ),
                     trailing: IconButton(
                       icon: const Icon(Icons.delete),
-                      onPressed: () => HiveUtils.eliminaProdotto(index),
+                      onPressed: () => prodotto.delete(),
                     ),
                   ),
                 );
@@ -61,12 +72,12 @@ class _HomePageState extends State<HomePage> {
                     crossAxisCount: 2,
                     childAspectRatio: 3.5,
                   ),
-                  itemCount: prodotti.length,
+                  itemCount: prodottiList.length,
                   itemBuilder: itemBuilder,
                 );
               } else {
                 return ListView.builder(
-                  itemCount: prodotti.length,
+                  itemCount: prodottiList.length,
                   itemBuilder: itemBuilder,
                 );
               }
