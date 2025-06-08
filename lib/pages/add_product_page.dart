@@ -59,7 +59,7 @@ class _AddProductPageState extends State<AddProductPage> {
       appBar: AppBar(
         title: Text('Aggiungi Prodotto'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -95,19 +95,31 @@ class _AddProductPageState extends State<AddProductPage> {
               SizedBox(height: 16),
               Row(
                 children: [
-                  Text(
-                    _selectedDate == null
-                        ? 'Seleziona data di scadenza'
-                        : 'Scadenza: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
+                  Expanded(
+                    child: Text(
+                      _selectedDate == null
+                          ? 'Seleziona data di scadenza'
+                          : 'Scadenza: ${DateFormat('dd/MM/yyyy').format(_selectedDate!)}',
+                    ),
                   ),
-                  Spacer(),
-                  TextButton(
+                  OutlinedButton(
                     onPressed: () => _selectDate(context),
-                    child: Text('Scegli Data'),
+                    child: const Text('Scegli Data'),
                   )
                 ],
               ),
-              Spacer(),
+              const SizedBox(height: 24),
+              if (_imageUrl.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: Image.network(
+                    _imageUrl,
+                    height: 150,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Icon(Icons.fastfood, size: 100),
+                  ),
+                ),
               ElevatedButton(
                 onPressed: () async {
                   if (_formKey.currentState!.validate() && _selectedDate != null) {
