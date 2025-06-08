@@ -54,6 +54,13 @@ class _AddProductPageState extends State<AddProductPage> {
   }
 
   @override
+  void dispose() {
+    _nomeController.dispose();
+    _barcodeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

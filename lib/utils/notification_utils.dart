@@ -24,11 +24,18 @@ class NotificationUtils {
     required String body,
     required DateTime scheduledDate,
   }) async {
+    // Avoid scheduling in the past.
+    final tz.TZDateTime time = tz.TZDateTime.from(
+        scheduledDate.isBefore(DateTime.now())
+            ? DateTime.now().add(const Duration(seconds: 1))
+            : scheduledDate,
+        tz.local);
+
     await flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       title,
       body,
-      tz.TZDateTime.from(scheduledDate, tz.local),
+      time,
       const NotificationDetails(
         android: AndroidNotificationDetails('conservami_channel', 'Conservami Notifiche',
             importance: Importance.max, priority: Priority.high),
