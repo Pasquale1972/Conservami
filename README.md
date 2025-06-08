@@ -5,7 +5,8 @@ Ogni prodotto viene memorizzato in Hive e può essere aggiunto manualmente o tra
 
 ## Funzionalità
 
-- Elenco dei prodotti salvati con data di scadenza.
+- Elenco dei prodotti salvati con data di scadenza, ordinati automaticamente.
+- Visualizzazione del Nutri-Score quando disponibile.
 - Aggiunta rapida di un prodotto con notifica un giorno prima della scadenza.
 - Recupero delle informazioni di base da OpenFoodFacts quando possibile.
 
