@@ -11,10 +11,11 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   path_provider: ^2.1.1
-  flutter_barcode_scanner: ^2.0.0
-  http: ^0.13.5
-  flutter_local_notifications: ^16.3.0
-  intl: ^0.18.1
+  flutter_barcode_scanner:
+    path: packages/flutter_barcode_scanner
+  http: ^1.4.0
+  flutter_local_notifications: ^19.2.1
+  intl: ^0.20.2
 
 dev_dependencies:
   flutter_test:
