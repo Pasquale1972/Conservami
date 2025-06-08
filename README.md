@@ -1,16 +1,18 @@
-# conservami_app
+# Conservami
 
-A new Flutter project.
+Conservami è una semplice applicazione Flutter per tenere traccia degli alimenti conservati in frigorifero.
+Ogni prodotto viene memorizzato in Hive e può essere aggiunto manualmente o tramite scansione del codice a barre.
 
-## Getting Started
+## Funzionalità
 
-This project is a starting point for a Flutter application.
+- Elenco dei prodotti salvati con data di scadenza.
+- Aggiunta rapida di un prodotto con notifica un giorno prima della scadenza.
+- Recupero delle informazioni di base da OpenFoodFacts quando possibile.
 
-A few resources to get you started if this is your first Flutter project:
+## Utilizzo
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Esegui `flutter pub get` per scaricare le dipendenze.
+2. Avvia l'app con `flutter run` su un dispositivo o emulatore.
+3. Tocca **+** nella schermata principale per inserire un nuovo prodotto.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+La scansione del codice a barre richiede un dispositivo con fotocamera disponibile.
