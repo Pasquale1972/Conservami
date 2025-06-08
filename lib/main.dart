@@ -24,7 +24,13 @@ class ConservamiApp extends StatelessWidget {
       title: 'Conservami',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        colorSchemeSeed: Colors.green,
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        colorSchemeSeed: Colors.green,
+        useMaterial3: true,
       ),
       home: HomePage(),
     );

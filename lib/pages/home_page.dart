@@ -25,20 +25,51 @@ class _HomePageState extends State<HomePage> {
           if (prodotti.isEmpty) {
             return Center(child: Text('Nessun prodotto'));
           }
-          return ListView.builder(
-            itemCount: prodotti.length,
-            itemBuilder: (context, index) {
-              final prodotto = prodotti.getAt(index)!;
-              return ListTile(
-                title: Text(prodotto.nome),
-                subtitle: Text(
-                  'Scadenza: ${DateFormat('dd/MM/yyyy').format(prodotto.dataScadenza)}',
-                ),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () => HiveUtils.eliminaProdotto(index),
-                ),
-              );
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              final isWide = constraints.maxWidth > 600;
+              final itemBuilder = (BuildContext context, int index) {
+                final prodotto = prodotti.getAt(index)!;
+                return Card(
+                  margin: const EdgeInsets.all(8),
+                  child: ListTile(
+                    leading: prodotto.immagineUrl.isNotEmpty
+                        ? Image.network(
+                            prodotto.immagineUrl,
+                            width: 50,
+                            height: 50,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                const Icon(Icons.fastfood),
+                          )
+                        : const Icon(Icons.fastfood),
+                    title: Text(prodotto.nome),
+                    subtitle: Text(
+                      'Scadenza: ${DateFormat('dd/MM/yyyy').format(prodotto.dataScadenza)}',
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () => HiveUtils.eliminaProdotto(index),
+                    ),
+                  ),
+                );
+              };
+
+              if (isWide) {
+                return GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3.5,
+                  ),
+                  itemCount: prodotti.length,
+                  itemBuilder: itemBuilder,
+                );
+              } else {
+                return ListView.builder(
+                  itemCount: prodotti.length,
+                  itemBuilder: itemBuilder,
+                );
+              }
             },
           );
         },
