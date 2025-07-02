@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'models/prodotto.dart';
@@ -5,16 +7,21 @@ import 'pages/home_page.dart';
 import 'utils/hive_utils.dart';
 import 'utils/notification_utils.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Hive.initFlutter();
-  Hive.registerAdapter(ProdottoAdapter());
+  runZonedGuarded(() async {
+    await Hive.initFlutter();
+    Hive.registerAdapter(ProdottoAdapter());
 
-  await HiveUtils.initBoxes();
-  await NotificationUtils.initNotifications();
+    await HiveUtils.initBoxes();
+    await NotificationUtils.initNotifications();
 
-  runApp(const ConservamiApp());
+    runApp(const ConservamiApp());
+  }, (error, stack) {
+    // In a real app, report errors to a logging service.
+    debugPrint('Unhandled error: $error');
+  });
 }
 
 class ConservamiApp extends StatelessWidget {

@@ -23,6 +23,7 @@ class NotificationUtils {
     required String title,
     required String body,
     required DateTime scheduledDate,
+    String? payload,
   }) async {
     // Avoid scheduling in the past.
     final tz.TZDateTime time = tz.TZDateTime.from(
@@ -37,11 +38,15 @@ class NotificationUtils {
       body,
       time,
       const NotificationDetails(
-        android: AndroidNotificationDetails('conservami_channel', 'Conservami Notifiche',
-            importance: Importance.max, priority: Priority.high),
+        android: AndroidNotificationDetails(
+          'conservami_channel',
+          'Conservami Notifiche',
+          importance: Importance.max,
+          priority: Priority.high,
+        ),
       ),
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      matchDateTimeComponents: null,
+      payload: payload,
     );
   }
 }
