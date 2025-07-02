@@ -8,6 +8,8 @@ import '../utils/hive_utils.dart';
 import '../utils/notification_utils.dart';
 
 class AddProductPage extends StatefulWidget {
+  const AddProductPage({super.key});
+
   @override
   _AddProductPageState createState() => _AddProductPageState();
 }
@@ -18,18 +20,20 @@ class _AddProductPageState extends State<AddProductPage> {
   final _barcodeController = TextEditingController();
   String _nutriScore = '';
   String _imageUrl = '';
-  List<String> _additivi = [];
-  List<String> _allergeni = [];
+  final List<String> _additivi = [];
+  final List<String> _allergeni = [];
   DateTime? _selectedDate;
 
   Future<void> _scanBarcode() async {
     final code = await BarcodeService.scanBarcode();
     if (code != null) {
+      if (!mounted) return;
       setState(() {
         _barcodeController.text = code;
       });
       final data = await FoodFactsService.fetchProductData(code);
       if (data != null) {
+        if (!mounted) return;
         setState(() {
           _nomeController.text = data['product_name'] ?? _nomeController.text;
           _nutriScore = data['nutriscore_grade'] ?? '';
@@ -42,11 +46,12 @@ class _AddProductPageState extends State<AddProductPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().add(Duration(days: 7)),
+      initialDate: DateTime.now().add(const Duration(days: 7)),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (picked != null && picked != _selectedDate) {
+      if (!mounted) return;
       setState(() {
         _selectedDate = picked;
       });
@@ -64,7 +69,7 @@ class _AddProductPageState extends State<AddProductPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Aggiungi Prodotto'),
+        title: const Text('Aggiungi Prodotto'),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -74,7 +79,7 @@ class _AddProductPageState extends State<AddProductPage> {
             children: [
               TextFormField(
                 controller: _nomeController,
-                decoration: InputDecoration(labelText: 'Nome Prodotto'),
+                decoration: const InputDecoration(labelText: 'Nome Prodotto'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Inserisci il nome';
@@ -82,13 +87,13 @@ class _AddProductPageState extends State<AddProductPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _barcodeController,
                 decoration: InputDecoration(
                   labelText: 'Codice a barre',
                   suffixIcon: IconButton(
-                    icon: Icon(Icons.qr_code_scanner),
+                    icon: const Icon(Icons.qr_code_scanner),
                     onPressed: _scanBarcode,
                   ),
                 ),
@@ -99,7 +104,7 @@ class _AddProductPageState extends State<AddProductPage> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
@@ -145,11 +150,12 @@ class _AddProductPageState extends State<AddProductPage> {
                       title: 'Prodotto in scadenza',
                       body: '${prodotto.nome} scade domani',
                       scheduledDate: prodotto.dataScadenza.subtract(const Duration(days: 1)),
+                      payload: prodotto.codiceABarre,
                     );
                     Navigator.pop(context);
                   }
                 },
-                child: Text('Salva'),
+                child: const Text('Salva'),
               )
             ],
           ),
