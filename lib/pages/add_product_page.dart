@@ -90,7 +90,7 @@ class _AddProductPageState extends State<AddProductPage> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _barcodeController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelText: 'Codice a barre',
                   suffixIcon: IconButton(
                     icon: const Icon(Icons.qr_code_scanner),
