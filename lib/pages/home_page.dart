@@ -7,6 +7,8 @@ import '../utils/hive_utils.dart';
 import 'add_product_page.dart';
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -17,13 +19,13 @@ class _HomePageState extends State<HomePage> {
     final box = HiveUtils.getProdottiBox();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Conservami'),
+        title: const Text('Conservami'),
       ),
       body: ValueListenableBuilder(
         valueListenable: box.listenable(),
         builder: (context, Box<Prodotto> prodotti, _) {
           if (prodotti.isEmpty) {
-            return Center(child: Text('Nessun prodotto'));
+            return const Center(child: Text('Nessun prodotto'));
           }
 
           final prodottiList = prodotti.values.toList()
@@ -89,10 +91,10 @@ class _HomePageState extends State<HomePage> {
         onPressed: () async {
           await Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => AddProductPage()),
+            MaterialPageRoute(builder: (_) => const AddProductPage()),
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

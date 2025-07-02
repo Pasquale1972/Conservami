@@ -14,10 +14,11 @@ void main() async {
   await HiveUtils.initBoxes();
   await NotificationUtils.initNotifications();
 
-  runApp(ConservamiApp());
+  runApp(const ConservamiApp());
 }
 
 class ConservamiApp extends StatelessWidget {
+  const ConservamiApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,7 +33,7 @@ class ConservamiApp extends StatelessWidget {
         colorSchemeSeed: Colors.green,
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
