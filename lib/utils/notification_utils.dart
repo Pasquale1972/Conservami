@@ -40,9 +40,7 @@ class NotificationUtils {
         android: AndroidNotificationDetails('conservami_channel', 'Conservami Notifiche',
             importance: Importance.max, priority: Priority.high),
       ),
-      androidAllowWhileIdle: true,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       matchDateTimeComponents: null,
     );
   }
