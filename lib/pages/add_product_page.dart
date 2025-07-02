@@ -20,8 +20,8 @@ class _AddProductPageState extends State<AddProductPage> {
   final _barcodeController = TextEditingController();
   String _nutriScore = '';
   String _imageUrl = '';
-  List<String> _additivi = [];
-  List<String> _allergeni = [];
+  final List<String> _additivi = [];
+  final List<String> _allergeni = [];
   DateTime? _selectedDate;
 
   Future<void> _scanBarcode() async {
@@ -46,9 +46,9 @@ class _AddProductPageState extends State<AddProductPage> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now().add(Duration(days: 7)),
+      initialDate: DateTime.now().add(const Duration(days: 7)),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
     );
     if (picked != null && picked != _selectedDate) {
       if (!mounted) return;
@@ -150,6 +150,7 @@ class _AddProductPageState extends State<AddProductPage> {
                       title: 'Prodotto in scadenza',
                       body: '${prodotto.nome} scade domani',
                       scheduledDate: prodotto.dataScadenza.subtract(const Duration(days: 1)),
+                      payload: prodotto.codiceABarre,
                     );
                     Navigator.pop(context);
                   }

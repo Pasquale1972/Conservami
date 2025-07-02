@@ -8,6 +8,7 @@ class BarcodeService {
       if (barcode == '-1') return null;
       return barcode;
     } catch (e) {
+      // In a production app consider logging the error.
       return null;
     }
   }

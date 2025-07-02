@@ -6,16 +6,34 @@ class NotificationUtils {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  static const AndroidNotificationDetails _androidNotificationDetails =
+      AndroidNotificationDetails(
+    'conservami_channel',
+    'Conservami Notifiche',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+
+  static const NotificationDetails _notificationDetails =
+      NotificationDetails(android: _androidNotificationDetails);
+
   static Future<void> initNotifications() async {
     tz.initializeTimeZones();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
+    const DarwinInitializationSettings initializationSettingsIOS =
+        DarwinInitializationSettings();
 
     const InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
     );
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestPermission();
   }
 
   static Future<void> scheduleNotification({
@@ -37,14 +55,7 @@ class NotificationUtils {
       title,
       body,
       time,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'conservami_channel',
-          'Conservami Notifiche',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      ),
+      _notificationDetails,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: payload,
     );
